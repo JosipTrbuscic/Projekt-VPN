@@ -1,0 +1,7 @@
+\select@language {croatian}
+\contentsline {section}{Sadr\v {z}aj}{2}{section*.1}
+\contentsline {section}{Literatura}{3}{section*.2}
+\contentsline {section}{\numberline {A}Dodatak A: Indeks (slika, dijagrama, tablic, ispisa koda)}{4}{Dodatak.1.A}
+\contentsline {section}{\numberline {B}Dodatak B: Dnevnik sastajanja}{5}{Dodatak.1.B}
+\contentsline {section}{\numberline {C}Dodatak C: Prikaz aktivnosti grupe}{6}{Dodatak.1.C}
+\contentsline {section}{\numberline {D}Dodatak D: Plan rada / Pregled rada i stanje ostvarenja}{7}{Dodatak.1.D}
