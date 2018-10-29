@@ -1,0 +1,16 @@
+#ignoriraj cijelu dokumentaciju
+*
+#ostavi gitignore
+!.gitignore
+#osim .tex fileova i pdfa
+!*.tex
+!dokumentacija.pdf
+
+#obilazi poddirektorije
+!*/
+
+#uključi tablice slike i literaturu
+!tablice/*.tex
+!slike/*
+!poglavlja/*.tex
+!literatura/*.bib

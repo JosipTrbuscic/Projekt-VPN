@@ -7,6 +7,7 @@
 \usepackage[section, notlof]{tocbibind}
 \usepackage{graphicx}
 \usepackage{csquotes}
+\usepackage[super,square]{natbib}
 \usepackage{lastpage}
 \usepackage{setspace}
 \usepackage{longtable}
@@ -28,15 +29,14 @@
 \renewcommand\refname{Literatura}
 \pagestyle{fancy}
 
-\rhead{Projektni zadatak}
-\lhead{Oblikovanje programske potpore}
-\lfoot{Helloworld}
+\rhead{}
+\lhead{}
+%\lfoot{}
 \cfoot{\thepage{} od \pageref{LastPage}}
-\rfoot{10. listopad 2018.}
+\rfoot{\textless Datum\textgreater}
 
 \renewcommand{\footrulewidth}{1pt}
 \renewcommand{\headrulewidth}{1pt}
-
 \begin{document}
 \thispagestyle{fancy}
 	\input{naslovnica}
@@ -57,18 +57,18 @@
 
 	\newpage
 	\begin{appendices}
-		\section{Dodatak A: Indeks (slika, dijagrama, tablic, ispisa koda)}
+		\section{Dodatak A: Indeks (slika, tablica, ispisa koda)}
 			\renewcommand\listfigurename{}
 			\listoffigures
 		
-		\newpage
-		\section{Dodatak B: Dnevnik sastajanja}
+	%	\newpage
+	%	\section{Dodatak B: Dnevnik sastajanja}
 
-		\newpage
-		\section{Dodatak C: Prikaz aktivnosti grupe}
+	%	\newpage
+	%	\section{Dodatak C: Prikaz aktivnosti grupe}
 
-		\newpage
-		\section{Dodatak D: Plan rada / Pregled rada i stanje ostvarenja}
+	%	\newpage
+	%	\section{Dodatak D: Plan rada / Pregled rada i stanje ostvarenja}
 	\end{appendices}
 	
 \end{document}

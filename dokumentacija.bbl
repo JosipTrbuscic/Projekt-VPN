@@ -1,13 +1,14 @@
 \begin{thebibliography}{1}
 
-\bibitem{opp}
-Oblikovanje programske potpore, {FER} {ZEMRIS}.
-\newblock \url{https://www.fer.unizg.hr/predmet/opp}.
+\bibitem{cis}
+CARNet CERT.
+\newblock Osnovni koncepti vpn tehnologije, 2003.
+\newblock
+  \url{https://www.cis.hr/www.edicija/LinkedDocuments/CCERT-PUBDOC-2003-02-05.pdf}.
 
-\bibitem{einstein}
-Albert Einstein.
-\newblock {Zur Elektrodynamik bewegter K{\"o}rper}. ({German}) [{On} the
-  electrodynamics of moving bodies].
-\newblock {\em Annalen der Physik}, 322(10):891--921, 1905.
+\bibitem{fundamentals}
+James~Henry Carmouche.
+\newblock {\em IPsec Virtual Private Network Fundumentals}.
+\newblock Cisco Press, 2006.
 
 \end{thebibliography}
