@@ -1,7 +1,9 @@
 #ignoriraj cijelu dokumentaciju
 *
-#ostavi gitignore
+#ostavi gitignore i README.md
 !.gitignore
+!README.md
+
 #osim .tex fileova i pdfa
 !*.tex
 !dokumentacija.pdf
