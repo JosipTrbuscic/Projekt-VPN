@@ -11,4 +11,14 @@ James~Henry Carmouche.
 \newblock {\em IPsec Virtual Private Network Fundumentals}.
 \newblock Cisco Press, 2006.
 
+\bibitem{softether}
+D.~Nobori, T.~Sugiyama, G.~Hatakeyama, and C.~Smith.
+\newblock Softether vpn project, 2013.
+\newblock Online; accessed 12 November 2018.
+
+\bibitem{ssl}
+Margaret Rouse.
+\newblock Ssl vpn (secure sockets layer virtual private network), 2018.
+\newblock Online; accessed 12 November 2018.
+
 \end{thebibliography}
