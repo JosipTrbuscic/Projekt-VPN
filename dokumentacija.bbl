@@ -26,4 +26,19 @@ Latex.
 \newblock \url{https://www.overleaf.com}.
 \newblock Online; accessed 12 November 2018.
 
+\bibitem{tutorialopenvpn}
+Justin Ellingwood.
+\newblock How to set up an openvpn server on ubuntu 16.04.
+\newblock
+  \url{https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-16-04},
+  May 2016.
+\newblock Online; pristupljeno: 14. prosinca 2018.
+
+\bibitem{openvpn}
+OpenVPN.
+\newblock Overview of openvpn.
+\newblock \url{https://community.openvpn.net/openvpn/wiki/OverviewOfOpenvpn},
+  2015.
+\newblock Online; pristupljeno: 10. siječnja 2019.
+
 \end{thebibliography}
