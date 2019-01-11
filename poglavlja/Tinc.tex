@@ -1,0 +1,39 @@
+\hfill \smallbreak
+Tinc je besplatan program za uspostavu VPN veze. Ono po čemu se tinc razlikuje od drugih programa je niz jedinstvenih mogućnosti koje uključuje, kao što su enkripcija, neobavezna kompresija, automatsko usmjeravanje u mreži „svatko sa svakim“, lagano proširivanje… Ove mogućnosti čine tinc jako dobrim rješenjem za poslovne mreže koje su sastavljene od velikog broja manjih udaljenih mreža.
+
+\subparagraph{Instalacija}
+\hfill \smallbreak
+Preuzmemo instalacijski paket s adrese\\ 
+\url{http://www.tinc-vpn.org/packages/windows/tinc-1.1pre15-install.exe} te obavimo standardi instalacijski postupak, pokrenemo installer, next, prihvatimo uvjete korištenja, Ok, označimo sva polja kada nas pita koje komponente želimo instalirati, next, install, finish. Sada otvorimo mapu u koju smo instalirali tinc (vjerojatno C:\textbackslash Program Files\textbackslash tinc) unutar komandne linije koju smo pokrenuli kao administrator, pozicioniramo se u mapu C:\textbackslash Program Files\textbackslash tinc te upisujemo redom naredbe:
+\FloatBarrier
+\smallbreak •	tinc –n vpn init master\\
+\smallbreak •	tinc –n vpn add subnet 20.0.0.1\\
+\smallbreak •	tinc –n vpn add address=public.domain-or-ip\\
+\smallbreak •	cd tap-win64\\
+\smallbreak •	addtap.bat\\
+\smallbreak •	cd ..\\
+\smallbreak •	netsh interface ipv4 show interfaces    (pogledamo što je odspojeno, vjerojatno Ethernet 2)\\
+\smallbreak •	netsh interface set interface name = "Ethernet 2" newname = "tinc"\\
+\smallbreak •	netsh interface ip set address "tinc" static 20.0.0.1    255.255.255.0\\
+\smallbreak •	netsh interface ipv4 show config  (sada bi trebali imati sučelje „tinc“ s maskom podmreže i IP-adresom)\\
+\FloatBarrier
+Time je postavljen glavni čvor, sada sličan postupak moramo ponoviti za računalo klijent. Na njemu također pokrenemo komandnu liniju kao administrator i pozicioniramo se u mapu gdje je tinc instaliran te upišemo sljedeće naredbe:
+\FloatBarrier
+\smallbreak •	tinc -n vpn init client1\\
+\smallbreak •	tinc -n vpn add connectto master\\
+\smallbreak •	tinc -n vpn add subnet 20.0.0.2\\
+\smallbreak •	cd tap-win64\\
+\smallbreak •	addtap.bat\\
+\smallbreak •	cd ..\\
+\smallbreak •	netsh interface ipv4 show interfaces   (pogledamo što je odspojeno, vjerojatno Ethernet 2)\\
+\smallbreak •	netsh interface set interface name = "Ethernet 2" newname = "tinc"\\
+\smallbreak •	netsh interface ip set address "tinc" static 20.0.0.2 255.255.255.0\\
+\FloatBarrier
+Potrebno je još samo s klijentskog računala kopirati datoteku vpn/hosts/client1 na računalo glavnog čvora u mapu vpn/hosts
+i s računala glavnog čvora kopirati datoteku vpn/hosts/master na klijentsko računalo u mapu vpn/hosts. Sada je sve spremno za korištenje.
+
+\subparagraph{Pokretanje}
+\hfill \smallbreak
+Kada je završena instalacija, tince se pokrene jednostavnom naredbaom koja je jednaka za klijenta i poslužitelja:
+\FloatBarrier
+\smallbreak •	tincd -n vpn -D -d3
