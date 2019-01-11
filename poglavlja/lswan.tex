@@ -1,0 +1,69 @@
+\bigbreak
+\paragraph*{Što je Libreswan?}
+\hfill \smallbreak
+Libreswan\cite{libreswan} je besplatna programska implementacija najpodržavanijeg i standardiziranog VPN protokola baziranog na IPsec-u i IKE-u (eng. \textit{Internet Key Exchange}). Ti standardi se održavaju od strane IETF-a.
+\bigbreak
+\paragraph*{Prije početka instalacije}
+\hfill \smallbreak
+Za sljedeće upute potrebna je nova, čista, bez ikakvih dodataka instalacija  Ubuntu \textbf{Server} 18.04 LTS distribucije Linux operacijskog sustava. Upute su prilagođene potpunim početnicima i ne zahtijeva se nikakvo prethodno znanje osim unosa tri naredbe. Kao i u prošloj cjelini kod OpenVPN-a potrebno je postaviti preusmjeravanje vrata, ali ovaj put se čak ne mora znati javna IP adresa. Za te detalje pobrinut će se skripta\cite{skripta-libreswan} koju ćemo pokrenuti i preuzeti. U slučaju da želite sličnu napredniju instalaciju koja koristi StrongSwan i IKEv2 pročitajte ovaj članak \cite{tutorial-librevpn}.
+\bigbreak
+\paragraph*{Instalacija poslužitelja}
+\hfill \smallbreak
+Prvi korak instalacije je kao i uvijek osvježavanje operacijskog sustava. To ćemo učiniti pomoću sljedećih naredbi:
+\begin{lstlisting}
+ sudo apt-get update
+ sudo apt-get upgrade
+\end{lstlisting}
+Sljedeći te ujedno i zadnji korak je povlačenje skripte s interneta te njezino pokretanje:
+\begin{lstlisting}
+ wget https://git.io/vpnsetup -O vpnsetup.sh && sudo sh vpnsetup.sh
+\end{lstlisting}
+Skripta automatski generira korisničko ime, lozinku i IPSec unaprijed dijeljeni ključ, ali u slučaju da želite sami postaviti svoje ime, lozinku i ključ umjesto gornje naredbe upišite sljedeće naredbe:
+\begin{lstlisting}
+ wget https://git.io/vpnsetup -O vpnsetup.sh
+ nano -w vpnsetup.sh
+\end{lstlisting}
+U dokumentu sada promijenite YOUR\_IPSEC\_PSK, YOUR\_USERNAME and YOUR\_PASSWORD u svoje vrijednosti. Imajte na umu da bi se ključ trebao sastojati od minimalno 20 nasumičnih simbola. Zatim pokrenite skriptu:
+\begin{lstlisting}
+ sudo sh vpnsetup.sh
+\end{lstlisting}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{"slike/Libreswan/VirtualBox_Ubuntu server_11_01_2019_14_38_24"}
+	\caption[Uspješno izvođenje Libreswan skripte]{Uspješno izvođenje Libreswan skripte}
+	\label{fig:virtualboxubuntu-server11012019143824}
+\end{figure}
+
+Nakon ovih koraka trebali bi imati ispis kao na slici \ref{fig:virtualboxubuntu-server11012019143824}. Sljedeći korak je povezivanje klijenta s poslužiteljom. Više o tome u sljedećim poglavljima.
+\bigbreak
+\paragraph*{Spajanje s poslužiteljom na Windows 10 OS-u}
+\hfill \smallbreak
+Za spajanje s poslužiteljom nije potrebno ništa instalirati već samo poduzeti sljedeće korake:
+\begin{itemize}
+	\item desni klik na Wi-Fi/mrežnu ikonu u \textit{taskbar}-u
+	\item stisnite \textbf{Open Network \& Internet settings} te na stranici koja se otvori stisnite \textbf{Network and Sharing Center}
+	\item stisnite \textbf{Set up a new connection or network}
+	\item označite \textbf{Connect to a workplace} i stisnite \textbf{Next}
+	\item stisnite \textbf{Use my Internet connection (VPN)}
+	\item upišite IP adresu vašeg poslužitelja u polje \textbf{Internet address}
+	\item u polje \textbf{Destination name} upišite što želite i stisnite \textbf{Create}
+	\item vratite se u \textbf{Network and Sharing Center} i na lijevoj strani stisnite opciju \textbf{Change adapter settings}
+	\item desni klik na novu VPN opciju i odaberite \textbf{Properties}
+	\item stisnite \textbf{Security} polje i za \textbf{Type of VPN} odaberite "Layer 2 Tunneling Protocol with IPsec (L2TP/IPSec)"
+	\item stisnite \textbf{Allow these protocols} te označite "Challenge Handshake Authentication Protocol (CHAP)" i "Microsoft CHAP Version 2 (MS-CHAP v2)"
+	\item stisnite \textbf{Advanced settings}
+	\item odaberite \textbf{Use preshared key for authentication} i unesite svoj PSK ključ
+	\item stisnite \textbf{OK} kako bi zatvorili napredne postavke
+	\item stisnite \textbf{OK} kako bi spremili postavke VPN konekcije
+\end{itemize}
+Sada možete ponovno stisnuti na ikonu mreže te bi vam se trebala pojaviti opcija spajanja na VPN. Stisnite na nju te unosite korisničko ime te lozinku. Nakon toga bi trebali biti spojeni s vašim VPN poslužiteljem. U slučaju da je spajanje neuspješno probajte otkloniti kvar koristeći sljedeći link \url{https://github.com/hwdsl2/setup-ipsec-vpn/blob/master/docs/clients.md#troubleshooting}.
+\bigbreak
+\paragraph*{Spajanje s poslužiteljom na Linuxu}
+\hfill \smallbreak
+Upute su za Ubuntu Linux. Za ostale provjerite postoje li paketi network-manager-l2tp i network-manager-l2tp-gnome, ako postoje preuzmite ih i instalirajte te slijedite upute ispod. Korisnicima Ubuntu distribucija potreban je dostupan paket network-manager-l2tp-gnome koji isto moraju preuzeti i instalirati nakon toga pratite sljedeće upute.\\
+Idite na \textbf{Settings} zatim \textbf{Network} te onda \textbf{VPN}. Stisnite \textbf{+} gumb. Odaberite \textbf{Layer 2 Tunneling Protocol (L2TP)}, polje \textbf{Name} popunite kako želite, u polje \textbf{Gateway} upišite IP adresu vašeg poslužitelja, a pod \textbf{User name} upišite vaše korisničko ime. U polje \textbf{Password} upišite lozinku, polje \textbf{NT Domain} ostavite praznim. Stisnite na gumb \textbf{IPSec Settings} te odaberite \textbf{Enable IPsec tunnel to L2TP host}, ostavite polje \textbf{Gateway ID} prazno. Upišite svoj PSK ključ u polje P\textbf{re-shared key}. Otvorite \textbf{Advanced} sekciju te upišite aes128-sha1-modp2048! u polja \textbf{Phase1 Algorithms} i \textbf{Phase2 Algorithms}. Stisnite \textbf{OK} i potom \textbf{Add} kako bi spremili konekciju. Na kraju upalite \textbf{VPN} prekidač. Sada bi trebali biti spojeni na vaš poslužitelj.  U slučaju da je došlo do pogreške probajte otkloniti kvar koristeći stranicu \url{https://github.com/hwdsl2/setup-ipsec-vpn/blob/master/docs/clients.md#troubleshooting}.
+\bigbreak
+\paragraph*{Spajanje s mobilnim uređajima}
+\hfill \smallbreak
+Spajanje na iOS-u i Android-u gotovo je isto pa ćemo iz tog razloga dati upute samo za Android.\\
+Otvorite \textbf{Postavke} zatim  \textbf{Bežično povezivanje i mreže} i odaberite \textbf{VPN}. Stisnite \textbf{Dodavanje VPN mreže} te zatim upišite proizvoljni \textbf{Naziv}, odaberite \textbf{L2TP/IPSec PSK} za vrstu konekcije. Popunite \textbf{Adresu poslužitelja} IP adresom vašeg poslužitelja te unesite vaš ključ u polje \textbf{IPSec unaprijed dijeljeni ključ}. Stisnite \textbf{Spremi} te sada odaberite vašu novu VPN konekciju. Upišite \textbf{Korisničko ime} i \textbf{Lozinku} te odaberite opciju Spremi podatke o računu. Na kraju stisnite \textbf{Poveži}.

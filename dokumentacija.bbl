@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{cis}
 CARNet CERT.
@@ -21,10 +21,12 @@ Margaret Rouse.
 \newblock Ssl vpn (secure sockets layer virtual private network), 2018.
 \newblock Online; accessed 12 November 2018.
 
-\bibitem{latex}
-Latex.
-\newblock \url{https://www.overleaf.com}.
-\newblock Online; accessed 12 November 2018.
+\bibitem{openvpn}
+OpenVPN.
+\newblock Overview of openvpn.
+\newblock \url{https://community.openvpn.net/openvpn/wiki/OverviewOfOpenvpn},
+  2015.
+\newblock Online; pristupljeno: 10. siječnja 2019.
 
 \bibitem{tutorialopenvpn}
 Justin Ellingwood.
@@ -34,11 +36,29 @@ Justin Ellingwood.
   May 2016.
 \newblock Online; pristupljeno: 14. prosinca 2018.
 
-\bibitem{openvpn}
-OpenVPN.
-\newblock Overview of openvpn.
-\newblock \url{https://community.openvpn.net/openvpn/wiki/OverviewOfOpenvpn},
-  2015.
-\newblock Online; pristupljeno: 10. siječnja 2019.
+\bibitem{libreswan}
+Libreswan.
+\newblock Libreswan vpn software.
+\newblock \url{https://libreswan.org/}.
+\newblock Online; pristupljeno: 11. siječnja 2019.
+
+\bibitem{skripta-libreswan}
+Lin Song.
+\newblock Ipsec vpn server auto setup scripts.
+\newblock \url{https://github.com/hwdsl2/setup-ipsec-vpn}, 2018.
+\newblock Online; pristupljeno: 15. prosinca 2019.
+
+\bibitem{tutorial-librevpn}
+Justin Ellingwood.
+\newblock How to set up an ikev2 vpn server with strongswan on ubuntu 18.04.
+\newblock
+  \url{https://www.digitalocean.com/community/tutorials/how-to-set-up-an-ikev2-vpn-server-with-strongswan-on-ubuntu-18-04-2},
+  July 2018.
+\newblock Online; pristupljeno: 14. prosinca 2018.
+
+\bibitem{latex}
+Latex.
+\newblock \url{https://www.overleaf.com}.
+\newblock Online; accessed 12 November 2018.
 
 \end{thebibliography}
