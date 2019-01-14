@@ -1,2 +1,153 @@
+Ovo poglavlje če uključivati postavljanje VPN-a na FreeBSD inačici operacijskog
+sustava BSD. 
+
+\subsection{Postavljanje FreeBSD poslužitelja}
+    Za pristupanje udaljenom poslužitelju koristit ćemo program i istoimeni
+    program ssh. Kako sada prvi puta pristupamo poslužitelju jedini korisnik
+    koji postoji je root. Root je korisnik na unixoidima koji može izvršiti
+    svaku naredbu i pristupiti svakoj datoteci. Njemu pristupamo naredbom
+    
+    \code{\$ ssh root@139.59.159.111} \\
+
+    Kada smo se prijavili na poslužitelja prvu stavr koju moramo napraviti je
+    ažurirati sustav. To ćemo napraviti koristeći FreeBSD-ov upravitelj
+    paketima \code{pkg} i njegove naredbe \code{update} i \code{upgrade}.
+
+    \code{\# pkg update} \\
+    \code{\# pkg upgrade} \\
+
+    Sada možemo instalirati openvpn.
+
+    \code{\# pkg install openvpn} \\
+
+    Konfiguracijske datoteke ćemo smjestiti u direktorij
+    \code{/usr/local/etc/openvpn} koji prvo moramo napraviti.
+
+    \code{\# mkdir /usr/local/etc/openvpn} \\
+
+    Openvpn nudi predloške konfiguracijskih datoteka stoga ćemo ih kopirati u
+    naš direktorij
+
+    \noindent
+    \code{\# cp
+    /usr/local/share/examples/openvpn/sample-config-files/server.conf
+    \textbackslash} \\
+    \code{\-\ \-\ \-\ \-\ \-\ /usr/local/etc/openvpn/openvpn.conf}
+
+    \subsubsection{Konfiguracija}
+        Kako bi mogli zaštititi našu vezu potrebno je kriptirati sav promet
+        između poslužitelja i klijenta. Koristit ćemo asimetričnu enkripciju
+        koja za što su nam potrebni parovi privatnih i javnih ključeva. OpenVPN
+        dolazi sa alatom Easy-RSA koji će nam poslužiti za izgradnju
+        infrastrukture javnog ključa (\textit{engl. PKI - public key
+        infrastructure}). PKI služi kako bi se javni ključevi povezali s
+        pripadajućim osobama ili oragnizacijama. Proces povezivanja izvršava
+        tijelo za certificiranje (\textit{engl. CA - certification authority}.
+        CA također potvrđuje privada li javni ključ osobi navedenoj u
+        certifikatu.
+
+        Kako je Easy-RSA omotač oko složene programske knjižnice OpenSSL ona
+        nam je jedini preduvjet te ćemo ju instalirati naredbom
+
+        \noindent
+        \code{\# pkg install openssl} \\
+
+        Nakon toga ćemo kopirati \code{easy-rsa} skriptu u naš direktorij sa svom
+        konfiguracijom.
+
+        \noindent
+        \code{\# cp -r /usr/local/share/easy-rsa
+        /usr/local/etc/openvpn/easy-rsa} \\
+
+        Sada ćemo se premjestiti u Easy-RSA direktoriji i urediti njegovu
+        konfiguracijusku datoteku \code{vars}.
+
+        \noindent
+        \code{\# cd /usr/local/etc/openvpn/easy-rsa} \\
+        \code{\# vim vars} \\
+
+        U nastavku su navedena polja koja je potrebno izmjeniti:
+        
+        \noindent
+        \code{set\_var EASYRSA\_REQ\_COUNTRY   \-\ "<ZEMLJA>"} \\
+        \code{set\_var EASYRSA\_REQ\_PROVINCE  "<ZUPANIJA>"} \\
+        \code{set\_var EASYRSA\_REQ\_CITY      \-\ \-\ \-\ \-\ "<GRAD>"} \\
+        \code{set\_var EASYRSA\_REQ\_ORG       \-\ \-\ \-\ \-\ \-\ "<ORGANIZACIJA>"} \\
+        \code{set\_var EASYRSA\_REQ\_EMAIL     \-\ \-\ \-\ "<EMAIL>"} \\
+        \code{set\_var EASYRSA\_REQ\_OU        \-\ \-\ \-\ \-\ \-\ \-\  "<ORGANIZACIJSKA JEDINICA>"} \\
+        \code{set\_var EASYRSA\_KEY\_SIZE      \-\ \-\ \-\ \-\ <broj> \# duljina rsa ključa u
+        bitovima} \\
+        \code{set\_var EASYRSA\_CA\_EXPIRE     \-\ \-\ \-\ <broj> \# trajanje CA ključa u
+        danima} \\
+        \code{set\_var EASYRSA\_CERT\_EXPIRE   \-\ <broj> \# trajanje certifikata u
+        danima} \\
+
+        Kako je \code{easy-rsa} skripta pisana za ljusku sh, dok
+        FreeBSD koristi csh potrebno je naredbom \code{sh} 
+        pokrenuti sh ljsuksu. Sada možemo inicijalizirati PKI
+
+        \code{\# ./easy-rsa.real init-pki}
+        
+        \noindent
+        nakon čega ćemo stvoriti CA 
+
+        \noindent
+        \code{\# ./easy-rsa.real build-ca}
+        
+        \noindent
+        Ovom naredbom smo stvorili par ključeva koji ćemo koristiti za
+        potpisivanje izdanih certifikata. 
+
+        \noindent
+        Sada ćemo generirati serverov certifikat naredbom
+
+        \noindent
+        \code{\# ./easy-rsa.real build-server-full <ime-server> nopass }
+
+        \noindent
+        gdje je \code{<ime-server>} ime certifikata, a s \code{nopass} opcijom ćemo
+        generirati nešifrirani ključ kako bi mogli automatski pokrenuti OpenVPN
+        uslugu prilikom pokretanja sustava bez upisivanja lozinke ključa.
+
+        Na sličan način ćemo generirati klijentove certifikate
+
+        \noindent
+        \code{\# ./easy-rsa.real build-client-full <ime-klijent>}
+        
+        \noindent
+        Za šifriranje same poruke koristit ćemo simetričan ključ generiran
+        Diffie-Hellman razmjenom. Za to su nam potrebni Diffie-Hellman
+        parametri koje stvaramo naredbom
+
+        \noindent
+        \code{\# ./easyrsa.real gen-dh}
+
+        \noindent
+        Do sada smo sve naredbe izvršavali na poslužitelju te smo generirali
+        velik broj datoteka od kojih ćemo neke morati premjestiti na klijentsko
+        računalo. Kako bi znali koje datoteke premejstiti potrebno je razumjeti
+        čemu svaka od njih služi. Kako su sve datoteke stvorene u \code{pki}
+        direktoriju pretpostavit ću da smo se u njega pozicionirali.
+
+        \begin{itemize}
+        \item \code{ca.crt} - certifikat koji se koristi za validaciju ostalih
+        certifikata, potrebno ga je kopirati na poslužitelja i sve klijente
+        \item \code{ca.key} - ključ koji CA koristi za izdavanje certifikata
+        \item \code{reqs/} - direktorij koji sadrži zahtjeve za izdajom
+        certifikata 
+        \item \code{issued/<ime-server>.crt} - certifikat servera koji služi za
+        provjeru potpisa na poruci, potrebno ga je prebaciti na poslužitelja
+        \item \code{private/<ime-server>.key} - privatni ključ polužitelja
+        koji se koristi za potpisivanje poruke, potrebno ga je prebaciti na
+        poslužitelja
+        \item \code{issued/<ime-klijent>.crt} - certifikat klijenta koji služi za
+        provjeru potpisa na poruci, potrebno ga je prebaciti na klijentsko
+        računalo
+        \item \code{private/<ime-klijent>.key} - privatni ključ klijenta
+        koji se koristi za potpisivanje poruke, potrebno ga je prebaciti na
+        klijentsko računalo
+        \item \code{dh.pem} - Diffie Hellman parametri, potrebno ih je prebaciti na
+        poslužitelja
+        \end{itemize}
 
 
