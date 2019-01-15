@@ -123,6 +123,9 @@ sustava BSD.
         \code{\# ./easyrsa.real gen-dh}
 
         \noindent
+        Kako bi dodatno osigurali integritet podataka kkk
+
+        \noindent
         Do sada smo sve naredbe izvršavali na poslužitelju te smo generirali
         velik broj datoteka od kojih ćemo neke morati premjestiti na klijentsko
         računalo. Kako bi znali koje datoteke premejstiti potrebno je razumjeti
@@ -150,4 +153,70 @@ sustava BSD.
         poslužitelja
         \end{itemize}
 
+        Ključeve poslužitelja ćemo premjestiti u poseban direktorij
 
+        \noindent
+        \code{\# mkdir /usr/local/etc/openvpn/keys} \\
+        \code{\# cp pki/dh.pem \textbackslash} \\
+        \code{\-\ \-\ \-\ \-\ \-\ pki/ca.crt \textbackslash} \\
+        \code{\-\ \-\ \-\ \-\ \-\ pki/issued/<ime-server>.crt \textbackslash} \\
+        \code{\-\ \-\ \-\ \-\ \-\ pki/private/<ime-server>.key \textbackslash} \\
+        \code{\-\ \-\ \-\ \-\ \-\ /usr/local/etc/openvpn/keys} \\
+
+        \noindent
+        Prije nego što počnemo konfigurirati klijentsko računalo, potrebno je u
+        konfiguraciji poslužitelja navesti putanje do certifikata, ključeva i 
+        parametara. To ćemo napraviti u datoteci \code{openvpn.conf} koju smo
+        na samom početku kopirali u \code{/usr/local/etc/openvpn}.
+        
+        \noindent
+        \code{vim /usr/local/etc/openvpn/openvpn.conf} \\
+        
+        Potrebno je urediti sljedeće linije
+
+        \noindent
+        \code{ca /usr/local/etc/openvpn/keys/ca.crt} \\
+        \code{cert /usr/local/etc/openvpn/keys/<ime-server>.crt} \\
+        \code{key /usr/local/etc/openvpn/keys/<ime-server>.key} \\
+        \code{dh /usr/local/etc/openvpn/keys/dh.pem} \\ 
+
+        Sada možemo postaviti klijentsko računalo. Kako smo već pripremili
+        većinu klijentovih datoteka na poslužitelju, potrebno ih je kopirati.
+        Radi se o osjetljivim datotekama stoga nam je potreban siguran način
+        slanja datoteka preko mreže za što ćemo koristiti program
+        \textit{secure copy}. Nakon što instaliramo openvpn isto kao i na
+        poslužiteljskom računalu možemo kopirati predložak konfiguracije
+
+        \code{\# cp
+        /usr/local/share/examles/openvpn/sample-config-files/client.config
+        \textbackslash} \\
+        \code{\-\ \-\ \-\ \-\ \-\ /usr/local/etc/openvpn/openvpn.conf}
+
+        \noindent
+        Također stvorit ćemo direktorij u koji ćemo spremiti ključeve i
+        certifikate
+
+        \code{\# mkdir /usr/local/etc/openvpn/keys}\\
+
+        \noindent
+        Sada možemo kopirati potrebne datoteke sa poslužitelja
+
+        \noindent
+        \code{\$ scp
+        root@<ip-server>:/usr/local/etc/openvpn/easy-rsa/pki/ca.crt keys } \\
+        \code{\$ scp
+        root@<ip-server>:/usr/local/etc/openvpn/easy-rsa/pki/issued/<ime-klijent>.crt
+        keys} \\
+        \code{\$ scp
+        root@<ip-server>:/usr/local/etc/openvpn/easy-rsa/pki/private/<ime-klijent>.key}
+        \\
+
+        \noindent
+        U konfiguraciji (\code{openvpn.conf}) osim putanja do certifikata i
+        ključeva potrebno je unjeti ip adresu poslužitelja
+
+        \noindent
+        \code{remote <ip-server> 1194} \\
+        \code{ca /usr/local/etc/openvpn/keys/ca.crt} \\
+        \code{cert /usr/local/etc/openvpn/keys/<ime-server>.crt} \\
+        \code{key /usr/local/etc/openvpn/keys/<ime-server>.key} \\
