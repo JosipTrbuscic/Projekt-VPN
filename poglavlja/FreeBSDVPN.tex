@@ -130,12 +130,25 @@ sustava BSD.
 
         \code{\# ./easy-rsa.real init-pki} \\
         
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale=0.5]{slike/afterPkiInit}
+            \caption{Struktura direktorija nakon inicijalizacije PKI}
+        \end{figure}
+        
         \noindent
         nakon čega ćemo stvoriti CA  \\
 
         \noindent
         \code{\# ./easy-rsa.real build-ca} \\
         
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale=0.5]{slike/afterBuildCa}
+            \caption{Struktura direktorija nakon stvaranja korjenskog
+            certifikata}
+        \end{figure}
+
         \noindent
         Ovom naredbom smo stvorili par ključeva koji ćemo koristiti za
         potpisivanje izdanih certifikata. 
@@ -156,6 +169,19 @@ sustava BSD.
         \noindent
         \code{\# ./easy-rsa.real build-client-full <ime-klijent> nopass} \\
         
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale=0.5]{slike/buildClientCert}
+            \caption{Stvaranje certifikata}
+        \end{figure}
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale=0.5]{slike/afterClientAndServerCert}
+            \caption{Struktura direktorija nakon stvaranja klijentskog i
+            poslužiteljevog certifikata}
+        \end{figure}
+
         \noindent
         Za šifriranje same poruke koristit ćemo simetričan ključ generiran
         Diffie-Hellman razmjenom. Za to su nam potrebni Diffie-Hellman
@@ -192,7 +218,6 @@ sustava BSD.
         \item \code{dh.pem} - Diffie Hellman parametri, potrebno ih je prebaciti na
         poslužitelja
         \end{itemize}
-        \newpage
 
         \noindent
         Ključeve poslužitelja ćemo premjestiti u poseban direktorij \\
@@ -204,6 +229,12 @@ sustava BSD.
         \code{\-\ \-\ \-\ \-\ \-\ pki/issued/<ime-server>.crt \textbackslash} \\
         \code{\-\ \-\ \-\ \-\ \-\ pki/private/<ime-server>.key \textbackslash} \\
         \code{\-\ \-\ \-\ \-\ \-\ /usr/local/etc/openvpn/keys} \\
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale=0.7]{slike/serverKeys}
+            \caption{Sadržaj \code{keys} direktorija na poslužitelju}
+        \end{figure}
 
         \noindent
         Prije nego što počnemo konfigurirati klijentsko računalo, potrebno je u
@@ -223,6 +254,13 @@ sustava BSD.
         \code{key /usr/local/etc/openvpn/keys/<ime-server>.key} \\
         \code{dh /usr/local/etc/openvpn/keys/dh.pem} \\ 
 
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale=0.57]{slike/serverPaths}
+            \caption{Putanje do ključeva i certifikata u datoteci
+            \code{openvpn.conf}}
+        \end{figure}
+        
         Sada možemo postaviti klijentsko računalo. Kako smo već pripremili
         većinu klijentovih datoteka na poslužitelju, potrebno ih je kopirati.
         Radi se o osjetljivim datotekama stoga nam je potreban siguran način
@@ -250,15 +288,28 @@ sustava BSD.
         \code{\$ scp
         root@<ip-server>:/usr/local/etc/openvpn/easy-rsa/pki/ca.crt keys } \\
         \code{\$ scp
-        root@<ip-server>:/usr/local/etc/openvpn/easy-rsa/pki/issued/<ime-klijent>.crt
-        keys} \\
+        root@<ip-server>:\textbackslash} \\
+        \code{\-\
+        \-\ \-\ \-\ \-\ \-\ /usr/local/etc/openvpn/easy-rsa/pki/issued/<ime-klijent>.crt
+        \textbackslash} \\
+        \code{\-\ \-\ \-\ \-\ \-\ \-\ keys} \\
         \code{\$ scp
-        root@<ip-server>:/usr/local/etc/openvpn/easy-rsa/pki/private/<ime-klijent>.key}
-        \\
+        root@<ip-server>:\textbackslash} \\
+        \code{\-\
+        \-\ \-\ \-\ \-\ \-\
+        /usr/local/etc/openvpn/easy-rsa/pki/private/<ime-klijent>.key
+        \textbackslash} \\
+        \code{\-\ \-\ \-\ \-\ \-\ \-\ keys} \\
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale=0.7]{slike/clientKeys}
+            \caption{Sadržaj \code{keys} direktorija na klijentu}
+        \end{figure}
 
         \noindent
         U konfiguraciji (\code{openvpn.conf}) osim putanja do certifikata i
-        ključeva potrebno je unjeti ip adresu poslužitelja
+        ključeva potrebno je unjeti ip adresu poslužitelja \\
 
         \noindent
         \code{remote <ip-server> 1194} \\
@@ -275,29 +326,75 @@ sustava BSD.
         \noindent
         Sada možemo alatom \code{ifconfig} provjeriti stanje mrežnih sučelja \\
         na klijentu: \\
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale=0.5]{slike/clientIfconfig}
+            \caption{Mrežna sučelja klijenta }
+        \end{figure}
         na poslužitelju: \\
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale=0.5]{slike/serverIfconfig}
+            \caption{Mrežna sučelja poslužitelja}
+        \end{figure}
 
         Možemo uočiti novo sučelje \code{tun0} koje predstavlja virtualno
         sučelje mrežnog sloja. Izvršavanjem naredbe \code{ping} možemo provjeriti je
-        li klijentsko računalo stvarno povezano na poslužitelja. 
+        li klijentsko računalo stvarno povezano s poslužiteljem. \\
 
         \noindent
-        \code{\$ ping 10.8.0.1}
+        \code{\$ ping 10.8.0.1} \\
 
         Kako nam je cilj povezati dva klijenta koji se nalaze u različitim
         privatnim mrežama na isti ćemo pripremiti još jednog klijenta. Njegova
         konfiguracija će biti jednaka konfiguraciji prvog klijenta, a izlaz
         naredbe \code{ifconfig}:
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale=0.45]{slike/client2Ifconfig}
+            \caption{Mrežna sučelja drugog klijenta}
+        \end{figure}
 
         \noindent
         Ako sada pokušamo naredbom
-        \code{ping}
+        \code{\$ ping 10.8.0.6}
         provjeriti jesu li klijenti međusobno povezani nećemo dobiti nikakav
         rezultat. Razlog tome je što pretpostavljena konfiguracija poslužitelja
         ne dozvoljava komunikaciju između klijenata. Kako bi to omogućili
-        potrebno je u konfiguracijskoj datoteci otkomentirati liniju 
+        potrebno je u konfiguracijskoj datoteci poslužitalja otkomentirati liniju 
 
         \noindent 
         \code{client-to-client} \\
 
-        Sada možemo pokušati kopirati datoteku s jednog klijenta na drugi 
+        \noindent
+        Sada ćemo ponovo pokrenuti OpenVPN i ispitati jesu li klijenti
+        međusobno povezani \\
+
+        \noindent
+        \code{\# service openvpn restart} \\
+        \code{\$ ping 10.8.0.6} \\
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale=0.5]{slike/pingResult}
+            \caption{Izlaz naredbe ping}
+        \end{figure}
+
+        Za kraj možemo pokušati kopirati datoteku s jednog klijenta na drugi
+        koristeći \code{tun0} sučelja. Na klijentu s adresom \code{10.8.0.6}
+        stvorit ćemo datoteku \code{pozdrav.txt} i u nju nešto zapisati \\ 
+
+        \noindent
+        \code{\$ touch pozdrav.txt} \\
+        \code{\$ echo "Bok" > pozdrav.txt} \\
+
+        \noindent
+        Sada ćemo sa drugog klijenta (adresa \code{10.8.0.10}) kopirati
+        \code{pozdrav.txt} datoteku i ispistai ju \\
+        \code{\$ scp root@10.8.0.6:/root/pozdrav.txt .} \\
+        \code{\$ cat /root/pozdrav.txt}\\
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale=0.45]{slike/pozdrav}
+            \caption{Kopiranje i ispis datoteke \code{pozdrav.txt}}
+        \end{figure}
