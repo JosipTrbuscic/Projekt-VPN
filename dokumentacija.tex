@@ -9,6 +9,7 @@
 \usepackage{csquotes}
 \usepackage[super,square]{natbib}
 \usepackage{lastpage}
+\usepackage{float}
 \usepackage{setspace}
 \usepackage{longtable}
 \usepackage{makecell}
@@ -44,6 +45,9 @@
 \renewcommand{\contentsname}{Sadržaj}
 \renewcommand\refname{Literatura}
 \pagestyle{fancy}
+\usepackage{xcolor}
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
 
 \rhead{}
 \lhead{}
