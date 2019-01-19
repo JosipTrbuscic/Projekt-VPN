@@ -1,7 +1,5 @@
 Ovo poglavlje če uključivati postavljanje VPN-a na FreeBSD inačici operacijskog
 sustava BSD. 
-
-\subsection{Postavljanje FreeBSD poslužitelja}
     Potreban nam je poslužitelj za po mogućnosti sa statičkom IP adresom. Ovdje
     ćemo koristiti platformu DigitalOcean koja omogućuje brzo i jednostavno
     podizanje i upravljanje poslužiteljem. Za pristup poslužitelju koristit ćemo
@@ -71,7 +69,6 @@ sustava BSD.
     \textbackslash} \\
     \code{\-\ \-\ \-\ \-\ \-\ /usr/local/etc/openvpn/openvpn.conf}
 
-    \subsubsection{Konfiguracija}
         Kako bi mogli zaštititi našu vezu potrebno je šifrirati sav promet
         između poslužitelja i klijenta i osigurati inegritet svake poruke.
         Za šifriranje podataka ćemo koristiti simetrično šifriranje zbog svoje
@@ -189,6 +186,7 @@ sustava BSD.
 
         \noindent
         \code{\# ./easyrsa.real gen-dh} \\
+
 
         \noindent
         Do sada smo sve naredbe izvršavali na poslužitelju te smo generirali
