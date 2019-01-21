@@ -125,15 +125,16 @@ Opet kao i prije prihvatite ponuđene argumente pritiskom na tipku ENTER te odgo
 \bigbreak
 \paragraph*{Konfiguracija OpenVPN usluge}
 \hfill \smallbreak
-Pozicionirajmo se prvo u /openvpn-ca-keys te zatim kopirajmo datoteke u /etc/openvpn:
+Pozicionirajmo se prvo u direktorij openvpn-ca-keys te zatim kopirajmo datoteke u direktorij openvpn :
 \begin{lstlisting}
  cd (*@$\sim$@*)/openvpn-ca/keys
  sudo cp ca.crt server.crt server.key ta.key dh2048.pem /etc/openvpn
 \end{lstlisting}
 Idući korak je kopiranje i raspakiravanje primjera konfiguracije:
-
-\begin{lstlisting}[basicstyle=\tiny]
- gunzip -c /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz | sudo tee /etc/openvpn/server.conf
+\begin{lstlisting}
+ gunzip -c /usr/share/doc/openvpn/examples/
+ \sample-config-files/server.conf.gz 
+ \| sudo tee /etc/openvpn/server.conf
 \end{lstlisting}
 Sada ćemo raspakiranu konfiguraciju otvoriti:
 \begin{lstlisting}
@@ -285,8 +286,9 @@ Stvorimo novi direktorij, podesimo mu postavke te nakon toga kopirajmo primjer k
  mkdir -p (*@$\sim$@*)/client-configs/files
  chmod 700 (*@$\sim$@*)/client-configs/files
 \end{lstlisting}
-\begin{lstlisting}[basicstyle=\tiny]
- cp /usr/share/doc/openvpn/examples/sample-config-files/client.conf (*@$\sim$@*)/client-configs/base.conf
+\begin{lstlisting}
+ cp /usr/share/doc/openvpn/examples/
+ \sample-config-files/client.conf (*@$\sim$@*)/client-configs/base.conf
 \end{lstlisting}
 \begin{lstlisting}
  nano (*@$\sim$@*)/client-configs/base.conf
