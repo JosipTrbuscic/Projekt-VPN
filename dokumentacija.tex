@@ -1,4 +1,4 @@
-\documentclass[a4paper, 12pt]{article}
+\documentclass[a4paper]{article}
 
 \usepackage[croatian]{babel}
 \usepackage[utf8]{inputenc}
@@ -24,6 +24,7 @@
 \usepackage{listings}
 \usepackage{graphicx}
 \usepackage{subcaption}
+\usepackage[font=scriptsize]{caption}
 
 
 \lstset{basicstyle=\ttfamily,
@@ -49,7 +50,7 @@
 \pagestyle{fancy}
 \usepackage{xcolor}
 \definecolor{light-gray}{gray}{0.95}
-\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+\newcommand{\code}[1]{{\texttt{\scriptsize #1}}} %\colorbox{light-gray}
 
 \rhead{}
 \lhead{}
