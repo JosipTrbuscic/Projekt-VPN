@@ -11,7 +11,15 @@ Neke svojstva OpenVPN povezivanja:
 	\item višestruko povezivanje
 	\item povezivanje računala s različitim operacijskim sustavima
 \end{itemize}
-
+\smallbreak
+Topologija koja se želi u ovom poglavlju ostvariti jest priključivanje korisnika udaljenoj mreži kao što je ilustrirano na slici \ref{fig:topologija-open}. Korisnik će preko svojeg računala uspostaviti virtualni privatni tunel preko Interneta s računalom koje ima instaliran i konfiguriran OpenVPN server. Nakon povezivanja će korisnik pripadati logičkoj lokalnoj mreži servera.
+\begin{figure}[h!]
+	\centering
+     \includegraphics[width=0.9\textwidth]{OVPN-win/topologija}
+     \caption{VPN topologija}
+     \label{fig:topologija-open}
+\end{figure}
+\FloatBarrier
 \bigbreak
 \paragraph*{Instalacija OpenVPN servera}
 \hfill \bigbreak
@@ -36,11 +44,12 @@ Ako je uspješno obavljeno preuzimanje, može se započeti instalacija pokretanj
 Dalje je potrebno pratiti klasične korake instalacije programa. Kada vam program ponudi odabir direktorija instalacije, preporuka je da odaberete pretpostavljeni direktorij jer su daljnje upute i konfiguracija pravljeni prema tom uzoru. Ako odaberete vlastiti, morate puteve prikazane u daljnjim koracima preoblikovati tako da vode do vašeg direktorija instalacije.
 \smallbreak
 
-Obratite pažnju na sljedeću sliku (slika 41) jer prikazuje uz pretpostavljene i važan odabir za uspješnu instalaciju. Potrebno je odabrati i instalirati ``EasyRSA 2 Certificate Management Scripts''.
+Obratite pažnju na sljedeću sliku (slika \ref{fig:instalacija-open}) jer prikazuje uz pretpostavljene i važan odabir za uspješnu instalaciju. Potrebno je odabrati i instalirati ``EasyRSA 2 Certificate Management Scripts''.
 \begin{figure}[h!]
 	\centering
      \includegraphics[width=0.7\textwidth]{OVPN-win/slika3}
      \caption{Prikaz dodataka instalacije}
+     \label{fig:instalacija-open}
 \end{figure}
 \FloatBarrier
 U sklopu instalacije programa obavljena je i instalacija virtualnog mrežnog priključka na računalu. Taj će se priključak koristiti za povezivanje poslužitelja i klijenata te je vidljiv u postavkama mreže računala:\smallbreak
@@ -65,33 +74,31 @@ Kako bismo ga lakše adresirali kasnije, promijenit ćemo mu ime u ``ServerVPN''
 \end{figure}
 \FloatBarrier
 
-Naredni se koraci izvode upisom naredbi u naredbeni redak. Potrebno je naredbeni redak pokrenuti kao administrator za što je prikazan jedan od mogućih načina na slici 43.
+Naredni se koraci izvode upisom naredbi u naredbeni redak. Potrebno je naredbeni redak pokrenuti kao administrator za što je prikazan jedan od mogućih načina na slici \ref{fig:administrator-win}.
 
 \begin{figure}[h!]
 	\centering
      \includegraphics[width=0.4\textwidth]{OVPN-win/slika6}
      \caption{Pokretanje naredbenog retka u administratorskom načinu}
+     \label{fig:administrator-win}
 \end{figure}
 \FloatBarrier
 
-Potrebno se pozicionirati u ``easy-rsa'' direktorij u instalacijskom direktoriju upisom naredbe:\smallbreak
-\small\textcolor{blue}{cd "C:\textbackslash Program Files\textbackslash OpenVPN\textbackslash easy-rsa"}
-\smallbreak
-
+Potrebno se pozicionirati u ``easy-rsa'' direktorij u instalacijskom direktoriju upisom naredbe:
+\begin{lstlisting}
+cd "C:\Program Files\OpenVPN\easy-rsa"
+\end{lstlisting}
 Sada je potrebno upisivati po redu sljedeće naredbe.
-\smallbreak
-\small\textcolor{blue}{init-config.bat}
-\smallbreak
+\begin{lstlisting}
+init-config.bat
+\end{lstlisting}
 Naredba inicijalizira konfiguracijsku datoteku u kojoj možemo dodati informacije o vezi koju uspostavljamo. Ti podaci neće utjecati na rad servera i klijenata.
-\smallbreak
-\small\textcolor{blue}{vars}
-\smallbreak
-\smallbreak
-\small\textcolor{blue}{clean-all}
-\smallbreak
-\smallbreak
-\small\textcolor{blue}{build-dh}
-\smallbreak
+\begin{lstlisting}
+vars
+clean-all
+build-dh
+\end{lstlisting}
+
 \begin{figure}[h!]
 	\centering
      \includegraphics[width=0.9\textwidth]{OVPN-win/slika10}
@@ -101,43 +108,46 @@ Naredba inicijalizira konfiguracijsku datoteku u kojoj možemo dodati informacij
 Naredbom se stvara potrebna ``.dh'' datoteka. Na nekim inačicama operacijskog sustava Windows moguća je greška: ``openssl" is not recognized ...\smallbreak
 U tom slučaju otići u napredne postavke sustava i dodati ``PATH'' varijablu, tj. put do bin datoteke OpenVPN-a :
 \small\textcolor{blue}{C:\textbackslash Program Files\textbackslash OpenVPN\textbackslash bin}
-	
-\smallbreak
-\small\textcolor{blue}{build-ca}
-\smallbreak
-Ovom je naredbom započeto stvaranje certifikata potrebnih za sigurno povezivanje servera i klijenata. Prilikom izvršavanja naredbe program nudi polja koja je potrebno popuniti, tj. informacije o našem serveru kako bi se ugradile u ključ što je vidljivo na slici 45.
+\begin{lstlisting}
+build-ca
+\end{lstlisting}
+Ovom je naredbom započeto stvaranje certifikata potrebnih za sigurno povezivanje servera i klijenata. Prilikom izvršavanja naredbe program nudi polja koja je potrebno popuniti, tj. informacije o našem serveru kako bi se ugradile u ključ što je vidljivo na slici \ref{fig:ca-open}.
 \begin{figure}[h!]
 	\centering
      \includegraphics[width=0.9\textwidth]{OVPN-win/slika11}
      \caption{Stvaranje certifikata povezivanja}
+     \label{fig:ca-open}
 \end{figure}
 \FloatBarrier
-\smallbreak
-\small\textcolor{blue}{build-key-server ServerVPN}
-\smallbreak
-Ova naredba također nudi upis podataka kao što je vidljivo na slici 46, ali ovdje su polja ostavljena prazna jer nisu ključna za rad. Naredbom su nastale 3 datoteke u instalacijskom direktoriju ``.crt'',  ``.csr'' i ``.key''.
+\begin{lstlisting}
+build-key-server ServerVPN
+\end{lstlisting}
+Ova naredba također nudi upis podataka kao što je vidljivo na slici \ref{fig:serverca-open}, ali ovdje su polja ostavljena prazna jer nisu ključna za rad. Naredbom su nastale 3 datoteke u instalacijskom direktoriju ``.crt'',  ``.csr'' i ``.key''.
 \begin{figure}[h!]
 	\centering
      \includegraphics[width=0.9\textwidth]{OVPN-win/slika12}
      \caption{Stvaranje certifikata servera}
+     \label{fig:serverca-open}
 \end{figure}
 \FloatBarrier
 Idući korak stvaranje je certifikata klijenta.
-\smallbreak
-\small\textcolor{blue}{build-key KlijentVPN}
-\smallbreak
-Po potrebi popuniti podacima o klijentu. Kako bi se razlikovao od ostalih, važno je popuniti polje ``Common Name'' kao na slici 47 i potvrditi stvaranje.
+\begin{lstlisting}
+build-key KlijentVPN
+\end{lstlisting}
+Po potrebi popuniti podacima o klijentu. Kako bi se razlikovao od ostalih, važno je popuniti polje ``Common Name'' kao na slici \ref{fig:klijent-open} i potvrditi stvaranje.
 \begin{figure}[h!]
 	\centering
      \includegraphics[width=0.9\textwidth]{OVPN-win/slika13}
      \caption{Stvaranje certifikata klijenta}
+     \label{fig:klijent-open}
 \end{figure}
 \FloatBarrier
 Kao i u prethodnom koraku nastale su 3 datoteke. Sve su neophodne za prijavu na naš server zato ih mi moramo spremiti i prebaciti na računala koja će se htjeti povezati na server. Povezivanje na server objašnjeno je u jednom od sljedećih dijelova poglavlja.\smallbreak
 Moguće je naravno dodavanje više različitih korisnika i brisanje istih.
-\smallbreak
-\small\textcolor{blue}{openvpn --genkey --secret keys/ta.key}
-\smallbreak
+\begin{lstlisting}
+openvpn --genkey --secret keys/ta.key
+\end{lstlisting}
+
 Ovom naredbom stvara se ključ kojim se autentificiraju podaci između servera i klijenata.
  
 \paragraph*{Konfiguracija OpenVPN servera}
@@ -227,18 +237,20 @@ Osim toga potrebno je:
 	\item imati omogućeno prosljeđivanje prometa s routera na vrata na kojima server sluša (Port forwarding)
 \end{itemize}	
 	
-Ako je konfiguracija dobro odrađena moguće je pokrenuti server. Povezivanje se započinje pokretanjem ``OpenVPN GUI'' datoteke na radnoj površini, odabirom ikone računala s alatne trake i odabirom ``Connect'' mogućnosti što je prikazano na slici 48. 
+Ako je konfiguracija dobro odrađena moguće je pokrenuti server. Povezivanje se započinje pokretanjem ``OpenVPN GUI'' datoteke na radnoj površini, odabirom ikone računala s alatne trake i odabirom ``Connect'' mogućnosti što je prikazano na slici \ref{fig:povezivanje-open}. 
 \begin{figure}[h!]
 	\centering
      \includegraphics[width=0.5\textwidth]{OVPN-win/slika15}
      \caption{Povezivanje sa serverom}
+     \label{fig:povezivanje-open}
 \end{figure}
 \FloatBarrier 	
-Pokrenut bi server trebao izgledati kao na slici 49.
+Pokrenut bi server trebao izgledati kao na slici \ref{fig:status-open}.
 \begin{figure}[h!]
 	\centering
      \includegraphics[width=0.7\textwidth]{OVPN-win/slika16}
      \caption{Status servera}
+     \label{fig:status-open}
 \end{figure}
 \FloatBarrier
 \newpage
