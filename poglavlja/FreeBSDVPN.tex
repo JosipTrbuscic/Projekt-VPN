@@ -1,4 +1,4 @@
-Ovo poglavlje če uključivati postavljanje VPN-a na FreeBSD inačici operacijskog
+Ovo poglavlje će uključivati postavljanje VPN-a na FreeBSD inačici operacijskog
 sustava BSD. 
     Potreban nam je poslužitelj za po mogućnosti sa statičkom IP adresom. Ovdje
     ćemo koristiti platformu DigitalOcean koja omogućuje brzo i jednostavno
@@ -25,7 +25,7 @@ sustava BSD.
 
     \newpage
     \noindent
-    Digitlal Ocean nam također nudi opciju da odaberemo lokaciju našeg poslužitelja
+    Digital Ocean nam također nudi opciju da odaberemo lokaciju našeg poslužitelja
     i pripremimo ssh ključeve kako bi si olakšali pristup
     \begin{figure}[h]
         \centering
@@ -40,7 +40,7 @@ sustava BSD.
     \noindent
     \code{\$ ssh root@139.59.159.111} \\
 
-    Kada smo se prijavili na poslužitelja prvu stavr koju moramo napraviti je
+    Kada smo se prijavili na poslužitelja prvu stvar koju moramo napraviti je
     ažurirati sustav. To ćemo napraviti koristeći FreeBSD-ov upravitelj
     paketima \code{pkg} i njegove naredbe \code{update} i \code{upgrade}. \\
 
@@ -70,16 +70,16 @@ sustava BSD.
     \code{\-\ \-\ \-\ \-\ \-\ /usr/local/etc/openvpn/openvpn.conf}
 
         Kako bi mogli zaštititi našu vezu potrebno je šifrirati sav promet
-        između poslužitelja i klijenta i osigurati inegritet svake poruke.
+        između poslužitelja i klijenta i osigurati integritet svake poruke.
         Za šifriranje podataka ćemo koristiti simetrično šifriranje zbog svoje
-        brzine, a za to nam je potreban simetrični ključ odnsno više ukoliko
+        brzine, a za to nam je potreban simetrični ključ odnosno više ukoliko
         netko uspije dešifrirati jednu od naših poruka. Kako bi osigurali
         integritet poruka potrebno ih je potpisati i omogućiti provjeru
-        potpisa. Ovaj problem ćemo rješiti digitalnim certifikatima koje ćemo
-        sami napraviti. OpenVPN dolazi sa alatom Easy-RSA koji će nam poslužiti za izgradnju
+        potpisa. Ovaj problem ćemo riješiti digitalnim certifikatima koje ćemo
+        sami napraviti. OpenVPN dolazi s alatom Easy-RSA koji će nam poslužiti za izgradnju
         infrastrukture javnog ključa (\textit{engl. PKI - public key
         infrastructure}). PKI služi kako bi se javni ključevi povezali s
-        pripadajućim osobama ili oragnizacijama. Proces povezivanja izvršava
+        pripadajućim osobama ili organizacijama. Proces povezivanja izvršava
         tijelo za certificiranje (\textit{engl. CA - certification authority}.
         CA također potvrđuje pripada li javni ključ osobi navedenoj u
         certifikatu. U praksi se CA nalazi na posebnom računalu, ali kako ovo
@@ -99,13 +99,13 @@ sustava BSD.
         /usr/local/etc/openvpn/easy-rsa} \\
 
         Sada ćemo se premjestiti u Easy-RSA direktoriji i urediti njegovu
-        konfiguracijusku datoteku \code{vars}. \\
+        konfiguracijsku datoteku \code{vars}. \\
 
         \noindent
         \code{\# cd /usr/local/etc/openvpn/easy-rsa} \\
         \code{\# vim vars} \\
 
-        U nastavku su navedena polja koja je potrebno izmjeniti:
+        U nastavku su navedena polja koja je potrebno izmijeniti:
         
         \noindent
         \code{set\_var EASYRSA\_REQ\_COUNTRY   \-\ "<ZEMLJA>"} \\
@@ -123,7 +123,7 @@ sustava BSD.
 
         Kako je \code{easy-rsa} skripta pisana za ljusku sh, dok
         FreeBSD koristi csh potrebno je naredbom \code{sh} 
-        pokrenuti sh ljsuksu. Sada možemo inicijalizirati PKI \\
+        pokrenuti sh ljusku. Sada možemo inicijalizirati PKI \\
 
         \code{\# ./easy-rsa.real init-pki} \\
         
@@ -142,7 +142,7 @@ sustava BSD.
         \begin{figure}[H]
             \centering
             \includegraphics[scale=0.5]{slike/afterBuildCa}
-            \caption{Struktura direktorija nakon stvaranja korjenskog
+            \caption{Struktura direktorija nakon stvaranja korijenskog
             certifikata}
         \end{figure}
 
@@ -191,7 +191,7 @@ sustava BSD.
         \noindent
         Do sada smo sve naredbe izvršavali na poslužitelju te smo generirali
         velik broj datoteka od kojih ćemo neke morati premjestiti na klijentsko
-        računalo. Kako bi znali koje datoteke premejstiti potrebno je razumjeti
+        računalo. Kako bi znali koje datoteke premjestiti potrebno je razumjeti
         čemu svaka od njih služi. Sve su datoteke stvorene u
         \code{easy-rsa/pki/} 
         direktoriju pa ćemo se u njega pozicionirati. \\
@@ -204,7 +204,7 @@ sustava BSD.
         certifikata 
         \item \code{issued/<ime-server>.crt} - certifikat servera koji služi za
         provjeru potpisa na poruci, potrebno ga je prebaciti na poslužitelja
-        \item \code{private/<ime-server>.key} - privatni ključ polužitelja
+        \item \code{private/<ime-server>.key} - privatni ključ poslužitelja
         koji se koristi za potpisivanje poruke, potrebno ga je prebaciti na
         poslužitelja
         \item \code{issued/<ime-klijent>.crt} - certifikat klijenta koji služi za
@@ -280,7 +280,7 @@ sustava BSD.
         \code{\# mkdir /usr/local/etc/openvpn/keys}\\
 
         \noindent
-        Sada možemo kopirati potrebne datoteke sa poslužitelja \\
+        Sada možemo kopirati potrebne datoteke s poslužitelja \\
 
         \noindent
         \code{\$ scp
@@ -307,7 +307,7 @@ sustava BSD.
 
         \noindent
         U konfiguraciji (\code{openvpn.conf}) osim putanja do certifikata i
-        ključeva potrebno je unjeti ip adresu poslužitelja \\
+        ključeva potrebno je unijeti ip adresu poslužitelja \\
 
         \noindent
         \code{remote <ip-server> 1194} \\
@@ -359,7 +359,7 @@ sustava BSD.
         provjeriti jesu li klijenti međusobno povezani nećemo dobiti nikakav
         rezultat. Razlog tome je što pretpostavljena konfiguracija poslužitelja
         ne dozvoljava komunikaciju između klijenata. Kako bi to omogućili
-        potrebno je u konfiguracijskoj datoteci poslužitalja otkomentirati liniju 
+        potrebno je u konfiguracijskoj datoteci poslužitelja otkomentirati liniju 
 
         \noindent 
         \code{client-to-client} \\
@@ -386,8 +386,8 @@ sustava BSD.
         \code{\$ echo "Bok" > pozdrav.txt} \\
 
         \noindent
-        Sada ćemo sa drugog klijenta (adresa \code{10.8.0.10}) kopirati
-        \code{pozdrav.txt} datoteku i ispistai ju \\
+        Sada ćemo s drugog klijenta (adresa \code{10.8.0.10}) kopirati
+        \code{pozdrav.txt} datoteku i ispisati ju \\
         \code{\$ scp root@10.8.0.6:/root/pozdrav.txt .} \\
         \code{\$ cat /root/pozdrav.txt}\\
 
