@@ -1,6 +1,11 @@
 
 
-\lstset{
+\lstset{basicstyle=\footnotesize,
+	basicstyle = \ttfamily,
+	showstringspaces=false,
+	backgroundcolor=\color{light-gray},
+	commentstyle=\color{red},
+	keywordstyle=\color{blue},
 	escapeinside={(*@}{@*)}
 }
 
@@ -12,8 +17,14 @@ OpenVPN\cite{openvpn} je potpuno otvoreni kod za SSL VPN soluciju koji zastupa �
 \bigbreak
 \paragraph*{Prije početka instalacije}
 \hfill \smallbreak
- Ove upute\cite{tutorialopenvpn} prilagođene su za verziju 16.04 Ubuntu distribucije operacijskog sustava Linux. Za uspješno instaliranje OpenVPN-a potrebna vam je javna IP adresa te je istu potrebno doznati prije početka instalacije. To se može doznati klikom na sljedeću stranicu \url{https://www.whatismyip.com/ }. Isto tako potrebno je otvoriti određena vrata (eng. \textit{port}) na vašem usmjeritelju ili ako je to zabranjeno od vašeg pružatelja internetskih usluga onda možete računalo potpuno izložiti internetu tako da se u postavkama usmjeritelja podesi opcija DMZ Host na IP adresu vašeg računala (ovaj način se ne preporučuje jer vašu lokalnu mrežu izlaže internetu što predstavlja sigurnosni problem).
- \\
+ Ove upute\cite{tutorialopenvpn} prilagođene su za verziju 16.04 Ubuntu distribucije operacijskog sustava Linux. Za uspješno instaliranje OpenVPN-a potrebna vam je javna IP adresa te je istu potrebno doznati prije početka instalacije. To se može doznati klikom na sljedeću stranicu \url{https://www.whatismyip.com/ }. Isto tako potrebno je otvoriti određena vrata (eng. \textit{port}) na vašem usmjeritelju (usmjeritelj 1 na slici \ref{fig:nacrt-mreze-finalna}) ili ako je to zabranjeno od vašeg pružatelja internetskih usluga onda možete računalo potpuno izložiti internetu tako da se u postavkama usmjeritelja podesi opcija DMZ Host na IP adresu vašeg računala (ovaj način se ne preporučuje jer vašu lokalnu mrežu izlaže internetu što predstavlja sigurnosni problem).
+ \begin{figure}[h]
+ 	\centering
+ 	\includegraphics[width=0.7\linewidth]{slike/OpenVPN/nacrt-mreze-finalna}
+ 	\caption[Nacrt mreže]{Nacrt mreže}
+ 	\label{fig:nacrt-mreze-finalna}
+ \end{figure}
+ 
  Sljedeći koraci izvedeni su u Ubuntu v. 16.04 u virtualnom okruženju.
  
  \bigbreak
@@ -35,7 +46,6 @@ Konfigurirajmo sada vrijednosti koje će naše tijelo koristiti otvaranjem datot
  nano vars
 \end{lstlisting}
 Unutra se nalaze neke varijable koje definiraju način stvaranja certifikata. Nas zanimaju samo neke od njih. Plave vrijednosti postavite po želji, a ako za KEY NAME koristite neku drugu vrijednost zapamtite ju jer će nam kasnije biti potrebna.
-
 \begin{lstlisting}
  export KEY_COUNTRY="(*@\textcolor{blue}{HR}@*)"
  export KEY_PROVINCE="(*@\textcolor{blue}{ZG}@*)"
@@ -43,7 +53,6 @@ Unutra se nalaze neke varijable koje definiraju način stvaranja certifikata. Na
  export KEY_ORG="(*@\textcolor{blue}{FER}@*)"
  export KEY_EMAIL="(*@\textcolor{blue}{info@primjer.hr}@*)"
  export KEY_OU="(*@\textcolor{blue}{Grupa za projekt}@*)"
-
  export KEY_NAME="(*@\textcolor{blue}{server}@*)"
 \end{lstlisting}
  Nakon što ste završili spremite i izađite. 
@@ -128,7 +137,8 @@ Opet kao i prije prihvatite ponuđene argumente pritiskom na tipku ENTER te odgo
 Pozicionirajmo se prvo u direktorij openvpn-ca-keys te zatim kopirajmo datoteke u direktorij openvpn :
 \begin{lstlisting}
  cd (*@$\sim$@*)/openvpn-ca/keys
- sudo cp ca.crt server.crt server.key ta.key dh2048.pem /etc/openvpn
+ sudo cp ca.crt server.crt server.key ta.key 
+ \dh2048.pem /etc/openvpn
 \end{lstlisting}
 Idući korak je kopiranje i raspakiravanje primjera konfiguracije:
 \begin{lstlisting}
@@ -216,7 +226,7 @@ U konfiguraciju dodajmo plavo označene dijelove pritom zamijenite enp0s3 za ime
  #
  # rules.before
  #
- # Rules that should be run before the ufw command line added rules. 
+ # Rules that should be run before the ufw command line 
  # Custom rules should be added to one of these chains:
  #   ufw-before-input
  #   ufw-before-output
@@ -231,8 +241,8 @@ U konfiguraciju dodajmo plavo označene dijelove pritom zamijenite enp0s3 za ime
  (*@\textcolor{blue}{-A POSTROUTING -s 10.8.0.0/8 -o enp0s3 -j MASQUERADE}@*)
  (*@\textcolor{blue}{COMMIT}@*)
  # END OPENVPN RULES
- 
- # Don't delete these required lines, otherwise there will be errors
+ # Don't delete these required lines, 
+ # otherwise there will be errors
 \end{lstlisting}
 Sada trebamo reći UFW-u da automatski proslijedi pakete. Otvorimo datoteku:
 \begin{lstlisting}
@@ -414,7 +424,6 @@ Sada se možete spojiti unošenjem sljedeće naredbe.
 \begin{lstlisting}
  sudo openvpn --config client1.ovpn
 \end{lstlisting}
-\newpage
 \paragraph*{Windows}
 \hfill \smallbreak
 Otvorite sljedeći link \url{https://openvpn.net/community-downloads/} i skinite program za Windowse te pokrenite instalaciju. Nakon instalacije u donjem desnom kutu vašeg ekrana pojavit će se ikona OpenVPN-a kao na slici \ref{fig:win-open-vpn-2}.
