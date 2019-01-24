@@ -1,8 +1,12 @@
-Ovo poglavlje će uključivati postavljanje VPN-a na FreeBSD inačici operacijskog
-sustava BSD. 
-    Potreban nam je poslužitelj za po mogućnosti sa statičkom IP adresom. Ovdje
+Ovo poglavlje će uključivati postavljanje VPN-a između dvije privatne mreže 
+na FreeBSD inačici operacijskog sustava BSD. 
+    OpenVPN nudi nudi opciju povezivanja proizvoljnog broja mreža te kako bi to
+    bilo moguće mreže se povezuju pomoću centralnog poslužitelja. 
+    Iako postoje razni servisi koji nude najam poslužitelja ovdje
     ćemo koristiti platformu DigitalOcean koja omogućuje brzo i jednostavno
-    podizanje i upravljanje poslužiteljem. Za pristup poslužitelju koristit ćemo
+    podizanje i upravljanje poslužiteljem. Digital ocean nudi najam
+    poslužitelja s unaprijed instaliranim operacijskim sustavom i statičnom ip
+    adresom. Za pristup poslužitelju koristit ćemo
     ssh protokol za što nam je potreban par ključeva koje generiramo naredbom \\
 
     \noindent
@@ -11,6 +15,12 @@ sustava BSD.
     \noindent
     Javni ključ se nalazi u datoteci \code{~/.ssh/id\_rsa.pub}, a privatni, koji
     mora ostati tajan, u \code{~/.ssh/id\_rsa}.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{slike/bsdtop}
+        \caption{Topoligija mreže}
+    \end{figure}
 
     Nakon registracije na Digital Ocean na svojem profilu možemo dodati javni ključ
     koji ćemo kasnije koristiti za pristup poslužitelju. Sada možemo stvoriti
