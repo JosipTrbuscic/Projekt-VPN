@@ -6,16 +6,16 @@ Tinc je besplatan program za uspostavu VPN veze. Ono po čemu se tinc razlikuje 
 Preuzmemo instalacijski paket s adrese\\ 
 \url{http://www.tinc-vpn.org/packages/windows/tinc-1.1pre15-install.exe} te obavimo standardi instalacijski postupak, pokrenemo installer, next, prihvatimo uvjete korištenja, Ok, označimo sva polja kada nas pita koje komponente želimo instalirati, next, install, finish. Sada otvorimo mapu u koju smo instalirali tinc (vjerojatno C:\textbackslash Program Files\textbackslash tinc) unutar komandne linije koju smo pokrenuli kao administrator, pozicioniramo se u mapu C:\textbackslash Program Files\textbackslash tinc te upisujemo redom naredbe:
 \FloatBarrier
-\smallbreak \code{tinc –n vpn init master}
-\smallbreak \code{tinc –n vpn add subnet 20.0.0.1}
-\smallbreak \code{tinc –n vpn add address=public.domain-or-ip}
+\smallbreak \code{tinc -n vpn init master}
+\smallbreak \code{tinc -n vpn add subnet 20.0.0.1}
+\smallbreak \code{tinc -n vpn add address=public.domain-or-ip}
 \smallbreak \code{cd tap-win64}
 \smallbreak \code{addtap.bat}
 \smallbreak \code{cd ..}
 \smallbreak \code{netsh interface ipv4 show interfaces}    (pogledamo što je odspojeno, vjerojatno Ethernet 2)
 \smallbreak \code{netsh interface set interface name = "Ethernet 2" newname = "tinc"}
 \smallbreak \code{netsh interface ip set address "tinc" static 20.0.0.1    255.255.255.0}
-\smallbreak \code{netsh interface ipv4 show config}  (sada bi trebali imati sučelje „tinc“ s maskom podmreže i IP-adresom)\\
+\smallbreak \code{netsh interface ipv4 show config}  (sada bi trebali imati sučelje „tinc“ s maskom podmreže i IP-adresom)
 \FloatBarrier
 Time je postavljen glavni čvor, sada sličan postupak moramo ponoviti za računalo klijent. Na njemu također pokrenemo komandnu liniju kao administrator i pozicioniramo se u mapu gdje je tinc instaliran te upišemo sljedeće naredbe:
 \FloatBarrier
